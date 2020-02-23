@@ -160,8 +160,6 @@ EOF
 
 }
 
-umount "$ISOLATE_ROOT/proc"
-
 if [ ! -f "$ISOLATE_ROOT/usr/bin/cint.rb" ] ; then
   cmd="cp `dirname $0`/cint.rb $ISOLATE_ROOT/usr/bin"
   echo "$cmd"
@@ -192,5 +190,23 @@ echo "$chroot_cmd update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 
 chroot "$ISOLATE_ROOT" update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 75
 # gcc 9 done
 
-# let user know that chroot installs are finished
+[ -z "$TRAVIS" ] && bash script/confirm.bash 'Install the V8 JavaScript Engine (submissions in JavaScript will fail without this!)' && {
+  HOME=/root ISOLATE_ROOT= chroot "$ISOLATE_ROOT" bash < script/install/v8.bash
+}
 
+[ -z "$TRAVIS" ] && bash script/confirm.bash 'Install .NET Core (C#)' && {
+  # check kernel version
+  uname -r | bash script/check_version.bash 4.14.0 || {
+    echo "Warning: Linux kernel $(uname -r) detected, .NET Core requires kernel >= 4.14"
+    echo "(see https://github.com/NZOI/nztrain/pull/64#issuecomment-582379819)"
+    echo "On Ubuntu 16.04.5, a newer kernel can be installed using"
+    echo "  sudo apt-get install linux-generic-hwe-16.04"
+    bash script/confirm.bash "Install .NET Core anyway"
+  }
+} && {
+  bash script/install/dotnet.bash
+}
+
+umount "$ISOLATE_ROOT/proc"
+
+echo 'Finished chroot installs!'
