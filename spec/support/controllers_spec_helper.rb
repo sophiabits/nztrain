@@ -114,7 +114,7 @@ module ControllersSpecHelper
       end
       matching
     end
-    failure_message_for_should do |actual|
+    failure_message do |actual|
       message = "expected attributes of object to match hash:\n"
       expected.each do |key,value|
         case
@@ -127,7 +127,7 @@ module ControllersSpecHelper
       end
       message
     end
-    failure_message_for_should_not do |actual|
+    failure_message_when_negated do |actual|
       "expected not completely matching attributes #{expected}, got #{actual.attributes}"
     end
     description do

@@ -9,10 +9,10 @@ describe ContestRelation do
     match do |relation|
       relation.finish_at == expected_time(relation)
     end
-    failure_message_for_should do |relation|
+    failure_message do |relation|
       "expected finishing at #{expected_time(relation)}, got finish_at #{relation.finish_at}"
     end
-    failure_message_for_should_not do |relation|
+    failure_message_when_negated do |relation|
       "expected not finishing at #{expected_time(relation)}, got finish_at #{relation.finish_at}"
     end
     description do
