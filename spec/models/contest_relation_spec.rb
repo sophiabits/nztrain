@@ -28,26 +28,26 @@ describe ContestRelation do
     @contest.destroy
   end
   it "updates finish_at when relation started_at changes" do
-    @relation.should finish_at_correct_time
+    expect(@relation).to finish_at_correct_time
     @relation.started_at = @contest.end_time.advance(:hours => -1)
-    @relation.should finish_at_correct_time
+    expect(@relation).to finish_at_correct_time
   end
   it "updates finish_at when contest changes" do
     @anothercontest = FactoryGirl.build(:contest, :start_time => @relation.started_at.advance(:hours => -1), :end_time => @relation.started_at.advance(:hours => 1))
     @relation.contest = @anothercontest
-    @relation.should finish_at_correct_time
+    expect(@relation).to finish_at_correct_time
     @relation.contest_id = @contest.id
-    @relation.should finish_at_correct_time
+    expect(@relation).to finish_at_correct_time
   end
   it "updates finish_at when contest end_time changes" do
     @contest.update_attributes(:end_time => @relation.started_at.advance(:hours => 1))
-    @relation.should finish_at_correct_time
+    expect(@relation).to finish_at_correct_time
   end
   it "updates finish_at when contest duration changes" do
     @contest.update_attributes(:duration => 1.0)
-    @relation.should finish_at_correct_time
+    expect(@relation).to finish_at_correct_time
     @contest.update_attributes(:duration => 5.0)
-    @relation.should finish_at_correct_time
+    expect(@relation).to finish_at_correct_time
   end
 
 end

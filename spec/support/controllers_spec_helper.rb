@@ -57,7 +57,7 @@ module ControllersSpecHelper
       it "can show #{resource}" do
         object = instance_variable_get "@#{resource}"
         get :show, :id => object.to_param
-        response.should be_success
+        expect(response).to be_success
       end
     end
     def can_update resource, options = {}
@@ -65,27 +65,27 @@ module ControllersSpecHelper
       it "can edit #{resource}" do
         object = instance_variable_get "@#{resource}"
         get :edit, :id => object.to_param
-        response.should be_success
+        expect(response).to be_success
         assigns(options[:resource_name]).class == object.class
       end
       it "can update #{resource}" do
         object = instance_variable_get "@#{resource}"
         put :update, :id => object.to_param, options[:resource_name] => object.attributes.symbolize_keys.merge(options[:attributes])
-        response.should redirect_to send "#{options[:resource_name]}_path", assigns(options[:resource_name])
-        assigns(options[:resource_name]).should have_attributes(options[:attributes])
+        expect(response).to redirect_to send "#{options[:resource_name]}_path", assigns(options[:resource_name])
+        expect(assigns(options[:resource_name])).to have_attributes(options[:attributes])
       end
     end
     def can_create resource, options = {}
       options = process_options resource, options
       it "can get new #{resource}" do
         get :new
-        response.should be_success
+        expect(response).to be_success
       end
       it "can create #{resource}" do
         expect do
           post :create, options[:resource_name] => options[:attributes]
         end.to change{(Kernel.const_get options[:class_name]).count}.by(1)
-        response.should redirect_to send "#{options[:resource_name]}_path", assigns(options[:resource_name])
+        expect(response).to redirect_to send "#{options[:resource_name]}_path", assigns(options[:resource_name])
         expect(assigns(options[:resource_name])).to have_attributes(options[:attributes])
       end
     end
