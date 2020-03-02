@@ -2,6 +2,7 @@ require 'file_size_validator'
 
 class User < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  include RSpec::Matchers
 
   # Include devise modules. Others available are:
   # :token_authenticatable, :encryptable, :lockable, :timeoutable and :omniauthable

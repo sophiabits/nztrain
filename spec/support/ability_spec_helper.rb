@@ -3,7 +3,7 @@ module AbilitySpecHelper
     Array(actions).each do |action|
       Array(subjects).each do |subject|
         policy = subject.is_a?(Class) ? "#{subject.name}Policy" : "#{subject.class.name}Policy"
-        policy.constantize.new(self, subject).send("#{action}?").should == true
+        expect(policy.constantize.new(self, subject).send("#{action}?")).to be true
       end
     end
   end
@@ -12,7 +12,7 @@ module AbilitySpecHelper
     Array(actions).each do |action|
       Array(subjects).each do |subject|
         policy = subject.is_a?(Class) ? "#{subject.name}Policy" : "#{subject.class.name}Policy"
-        policy.constantize.new(self, subject).send("#{action}?").should == false
+        expect(policy.constantize.new(self, subject).send("#{action}?")).to be false
       end
     end
   end
