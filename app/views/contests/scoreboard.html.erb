@@ -48,7 +48,7 @@
       <% previous_record = @scoreboard.first %>
       <% @scoreboard.each_with_index do |record,index| %>
         <% is_unofficial = @contest.show_unofficial_competitors && (record.school.nil? || record.school_year.nil? || record.user&.country_code != "NZ") %>
-        <tr class="<% if user_signed_in? && record.id==current_user.id %>emphasized<% end %><% if is_unofficial %> unofficial<% end %>">
+        <tr class="<% if user_signed_in? && record.user.id==current_user.id %>emphasized<% end %><% if is_unofficial %> unofficial<% end %>">
           <% num_unofficial += 1 if is_unofficial %>
           <% rank = index + 1 - num_unofficial unless previous_record.score == record.score && previous_record.time_taken == record.time_taken %>
           <% previous_record = record %>
@@ -64,7 +64,7 @@
             <td style="border-right:0;padding-right:0"><%= "Deleted User ID #{record[:user_id]}" %></td>
             <td style="border-left:0;padding-left:1em"></td>
           <% end %>
-          <% link_to_submissions = user_signed_in? && (record.id == current_user.id || current_user.is_admin?) %>
+          <% link_to_submissions = user_signed_in? && (record.user.id == current_user.id || current_user.is_admin?) %>
           <% if @contest.live_scoreboard %>
             <% @problems.each do |prob|%>
               <td>
