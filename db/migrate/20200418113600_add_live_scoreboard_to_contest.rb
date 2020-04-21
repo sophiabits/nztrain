@@ -1,4 +1,4 @@
-class AddLiveScoreboardField < ActiveRecord::Migration
+class AddLiveScoreboardToContest < ActiveRecord::Migration
     def change
       add_column :contests, :live_scoreboard, :boolean, :default => true
     end
