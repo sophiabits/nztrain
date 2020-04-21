@@ -71,7 +71,7 @@
   <p>
     <b>Start time:</b>  <%= @contest.start_time %><br>
     <b>End time:</b>    <%= @contest.end_time %><br>
-    <b>Duration:</b>    <%= @contest.duration %> <%= @contest.duration == 1.0 ? "hour" : "hours"%><br>
+    <b>Duration:</b>    <%= @contest.duration %> hours<br>
   </p>
   <% if @contest.ended? and @contest.finalized_at.nil? and policy(@contest).update? %>
     <%= link_to "Finalize results", finalize_contest_path(@contest), :data => { :confirm => 'Are you sure?' }, :method => :put %>
